@@ -41,7 +41,7 @@ function doD () {
 function doHandleMessage () {
     if (Busy == 0 && Lastmessage != 0) {
         Busy = 1
-        led.plot(5, 0)
+        led.plot(4, 0)
         if (Lastmessage == 64) {
             Action = "A"
         } else if (Lastmessage == 9) {
@@ -169,7 +169,7 @@ loops.everyInterval(100, function () {
             doBd()
         }
         Action = "."
-        led.unplot(5, 0)
+        led.unplot(4, 0)
     } else {
         doMove(0, 0)
     }
