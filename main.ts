@@ -1,5 +1,5 @@
 function doOff () {
-    if (State != 1) {
+    if (State != 0) {
         State = 0
         led.unplot(0, 0)
         strip.clear()
@@ -12,17 +12,13 @@ IR.IR_callbackUser(function (message) {
 function doD () {
     if (State == 1) {
         maqueen.motorRun(maqueen.Motors.M1, maqueen.Dir.CCW, 255)
-        maqueen.motorRun(maqueen.Motors.M2, maqueen.Dir.CW, 255)
-        basic.pause(100)
-        maqueen.motorStop(maqueen.Motors.All)
+        maqueen.motorRun(maqueen.Motors.M2, maqueen.Dir.CCW, 255)
     }
 }
 function doB () {
     if (State == 1) {
         maqueen.motorRun(maqueen.Motors.M1, maqueen.Dir.CCW, 255)
-        maqueen.motorRun(maqueen.Motors.M2, maqueen.Dir.CCW, 255)
-        basic.pause(100)
-        maqueen.motorStop(maqueen.Motors.All)
+        maqueen.motorRun(maqueen.Motors.M2, maqueen.Dir.CW, 255)
     }
 }
 function doOn () {
@@ -36,16 +32,12 @@ function doA () {
     if (State == 1) {
         maqueen.motorRun(maqueen.Motors.M1, maqueen.Dir.CW, 255)
         maqueen.motorRun(maqueen.Motors.M2, maqueen.Dir.CW, 255)
-        basic.pause(100)
-        maqueen.motorStop(maqueen.Motors.All)
     }
 }
 function doC () {
     if (State == 1) {
         maqueen.motorRun(maqueen.Motors.M1, maqueen.Dir.CW, 255)
         maqueen.motorRun(maqueen.Motors.M2, maqueen.Dir.CCW, 255)
-        basic.pause(100)
-        maqueen.motorStop(maqueen.Motors.All)
     }
 }
 let Button2 = 0
@@ -58,9 +50,10 @@ let Action = "."
 State = 0
 led.unplot(0, 0)
 strip = neopixel.create(DigitalPin.P15, 4, NeoPixelMode.RGB)
+strip.clear()
+strip.show()
 loops.everyInterval(100, function () {
     if (Action != ".") {
-        music.playTone(262, music.beat(BeatFraction.Whole))
         if (Action == "On") {
             doOn()
         } else if (Action == "Off") {
@@ -76,6 +69,8 @@ loops.everyInterval(100, function () {
         }
         Action = "."
         led.unplot(4, 0)
+    } else {
+        maqueen.motorStop(maqueen.Motors.All)
     }
 })
 loops.everyInterval(100, function () {
@@ -102,7 +97,5 @@ loops.everyInterval(100, function () {
         Button2 = 0
         Busy = 0
         Lastmessage = 0
-    } else {
-    	
     }
 })
