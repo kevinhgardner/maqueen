@@ -39,12 +39,11 @@ function doMotorLeft (num: number) {
 function doInit () {
     maqueen.motorStop(maqueen.Motors.All)
     bottomLeds = neopixel.create(DigitalPin.P15, 4, NeoPixelMode.RGB)
-    StateMachine.setState(StateKind.off)
-    RadioGameController.enable(123, RadioGameController.Mode.SLAVE)
-    motoron = true
-    maqueen.motorStop(maqueen.Motors.All)
     maqueen.writeLED(maqueen.LED.LEDLeft, maqueen.LEDswitch.turnOff)
     maqueen.writeLED(maqueen.LED.LEDRight, maqueen.LEDswitch.turnOff)
+    StateMachine.setState(StateKind.off)
+    RadioGameController.enable(123, RadioGameController.Mode.SLAVE)
+    motoron = false
 }
 StateMachine.onStateInit(StateKind.forward, function (oldState) {
     doMotor(1, 1)
@@ -93,6 +92,9 @@ StateMachine.onStateInit(StateKind.rightforward, function (oldState) {
     doMotor(1, 0)
     doBottomLeds2(false, true, false, false)
 })
+function doUpdateLeds () {
+	
+}
 maqueen.ltEvent(maqueen.Patrol1.PatrolLeft, maqueen.Voltage.Low, function () {
     maqueen.writeLED(maqueen.LED.LEDLeft, maqueen.LEDswitch.turnOff)
 })
@@ -100,7 +102,7 @@ StateMachine.onStateInit(StateKind.off, function (oldState) {
     doBottomLeds(neopixel.colors(NeoPixelColors.Black))
     doMotor(0, 0)
     maqueen.writeLED(maqueen.LED.LEDRight, maqueen.LEDswitch.turnOff)
-    maqueen.writeLED(maqueen.LED.LEDRight, maqueen.LEDswitch.turnOff)
+    maqueen.writeLED(maqueen.LED.LEDLeft, maqueen.LEDswitch.turnOff)
 })
 StateMachine.onStateInit(StateKind.left, function (oldState) {
     doMotor(-1, 1)
