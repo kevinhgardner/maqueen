@@ -5,8 +5,10 @@
         "core": "*",
         "radio": "*",
         "microphone": "*",
-        "maqueen": "github:dfrobot/pxt-maqueen#v1.7.2",
-        "neopixel": "github:microsoft/pxt-neopixel#v0.7.5"
+        "neopixel": "github:microsoft/pxt-neopixel#v0.7.5",
+        "RadioGameController": "github:kevinhgardner/radiogamecontroller#master",
+        "StateMachine": "github:kevinhgardner/statemachine#master",
+        "maqueen": "github:kevinhgardner/pxt-maqueen#master"
     },
     "files": [
         "main.blocks",
