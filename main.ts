@@ -19,11 +19,15 @@ RadioGameController.onButtonPress(RadioGameController.ButtonPins.ButtonA, RadioG
 })
 StateMachine.onStateInit(StateKind.rightbackwards, function (oldState) {
     doMotor(-1, 0)
-    doBottomLeds2(false, false, false, true)
+    doBottomLeds2()
+})
+RadioGameController.onButtonPress(RadioGameController.ButtonPins.Fire2, RadioGameController.ButtonEvents.Down, function () {
+    doBlue()
+    StateMachine.setState(StateMachine.getState(), true)
 })
 StateMachine.onStateInit(StateKind.right, function (oldState) {
     doMotor(1, -1)
-    doBottomLeds2(false, true, false, true)
+    doBottomLeds2()
 })
 function doMotorLeft (num: number) {
     if (motoron) {
@@ -47,38 +51,38 @@ function doInit () {
 }
 StateMachine.onStateInit(StateKind.forward, function (oldState) {
     doMotor(1, 1)
-    doBottomLeds2(true, true, false, false)
+    doBottomLeds2()
 })
 function doBottomLeds (color: number) {
     bottomLeds.showColor(color)
 }
 RadioGameController.onButtonPress(RadioGameController.ButtonPins.Fire1, RadioGameController.ButtonEvents.Down, function () {
-    doToggleColor()
+    doRed()
+    StateMachine.setState(StateMachine.getState(), true)
 })
 function doMotor (left: number, right: number) {
     doMotorLeft(left)
     doMotorRight(right)
 }
-function doOrange () {
-    speed = 200
-    speedcolor = neopixel.colors(NeoPixelColors.Orange)
-    doBottomLeds2(false, false, false, false)
-}
 function doGreen () {
     speed = 150
     speedcolor = neopixel.colors(NeoPixelColors.Green)
-    doBottomLeds2(false, false, false, false)
+    doBottomLeds2()
 }
+RadioGameController.onButtonPress(RadioGameController.ButtonPins.Fire2, RadioGameController.ButtonEvents.Up, function () {
+    doGreen()
+    StateMachine.setState(StateMachine.getState(), true)
+})
 StateMachine.onStateInit(StateKind.idle, function (oldState) {
     if (oldState == StateKind.off) {
         doGreen()
     }
     doMotor(0, 0)
-    doBottomLeds2(false, false, false, false)
+    doBottomLeds2()
 })
 StateMachine.onStateInit(StateKind.leftforward, function (oldState) {
     doMotor(0, 1)
-    doBottomLeds2(true, false, false, false)
+    doBottomLeds2()
 })
 function doMotorRight (num: number) {
     if (motoron) {
@@ -93,7 +97,7 @@ function doMotorRight (num: number) {
 }
 StateMachine.onStateInit(StateKind.rightforward, function (oldState) {
     doMotor(1, 0)
-    doBottomLeds2(false, true, false, false)
+    doBottomLeds2()
 })
 StateMachine.onStateInit(StateKind.off, function (oldState) {
     doMotor(0, 0)
@@ -101,49 +105,34 @@ StateMachine.onStateInit(StateKind.off, function (oldState) {
     maqueen.writeLED(maqueen.LED.LEDRight, maqueen.LEDswitch.turnOff)
     maqueen.writeLED(maqueen.LED.LEDLeft, maqueen.LEDswitch.turnOff)
 })
-function doToggleColor () {
-    if (speedcolor == neopixel.colors(NeoPixelColors.Green)) {
-        doOrange()
-    } else if (speedcolor == neopixel.colors(NeoPixelColors.Orange)) {
-        doRed()
-    } else if (speedcolor == neopixel.colors(NeoPixelColors.Red)) {
-        doGreen()
-    }
-}
 StateMachine.onStateInit(StateKind.left, function (oldState) {
     doMotor(-1, 1)
-    doBottomLeds2(true, false, true, false)
+    doBottomLeds2()
 })
-function doBottomLeds2 (leftfront: boolean, rightfront: boolean, leftback: boolean, rightback: boolean) {
-    for (let index = 0; index <= 3; index++) {
-        bottomLeds.setPixelColor(index, speedcolor)
-    }
-    if (leftfront) {
-        bottomLeds.setPixelColor(0, neopixel.colors(NeoPixelColors.White))
-    }
-    if (rightfront) {
-        bottomLeds.setPixelColor(3, neopixel.colors(NeoPixelColors.White))
-    }
-    if (leftback) {
-        bottomLeds.setPixelColor(1, neopixel.colors(NeoPixelColors.White))
-    }
-    if (rightback) {
-        bottomLeds.setPixelColor(2, neopixel.colors(NeoPixelColors.White))
-    }
-    bottomLeds.show()
+function doBottomLeds2 () {
+    bottomLeds.showColor(speedcolor)
 }
 StateMachine.onStateInit(StateKind.backwards, function (oldState) {
     doMotor(-1, -1)
-    doBottomLeds2(false, false, true, true)
+    doBottomLeds2()
 })
 function doRed () {
     speed = 255
     speedcolor = neopixel.colors(NeoPixelColors.Red)
-    doBottomLeds2(false, false, false, false)
+    doBottomLeds2()
 }
+function doBlue () {
+    speed = 50
+    speedcolor = neopixel.colors(NeoPixelColors.Blue)
+    doBottomLeds2()
+}
+RadioGameController.onButtonPress(RadioGameController.ButtonPins.Fire1, RadioGameController.ButtonEvents.Up, function () {
+    doGreen()
+    StateMachine.setState(StateMachine.getState(), true)
+})
 StateMachine.onStateInit(StateKind.leftbackwards, function (oldState) {
     doMotor(0, -1)
-    doBottomLeds2(false, false, true, false)
+    doBottomLeds2()
 })
 function doUpdateState () {
     if (StateMachine.getState() != StateKind.off) {
